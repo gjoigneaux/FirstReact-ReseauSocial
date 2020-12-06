@@ -9,10 +9,9 @@ const auth = require('../middelware/auth');
 router.post('/signup', dataCtlr.signup);
 router.post('/login', dataCtlr.login);
 
-router.get('/getusers', dataCtlr.getUsers);
-router.get('/getoneuser/:id', dataCtlr.getOneUser);
+router.get('/getusers', auth, dataCtlr.getUsers);
+router.get('/getoneuser/:id', auth, dataCtlr.getOneUser);
 
-router.put('/updateuser/:id', dataCtlr.updateUser);
-router.delete('/deleteUser/:id', dataCtlr.deleteUser);
+router.delete('/deleteUser/:id', auth, dataCtlr.deleteUser);
 
 module.exports = router;

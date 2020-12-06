@@ -41,20 +41,35 @@ exports.postCommentaire = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
 	if (req.body.multi !== null) {
 		console.log(req.params, req.body);
-		fs.unlink(`./public/images/${req.body.multi}`);
-	}
-	db.query(
-		`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
-			if (error) {
-				return res.status(400).json(error);
+		fs.unlink(`./public/images/${req.body.multi}`, (err => {
+			if (err) {
+				console.log(err);
+				db.query(
+					`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
+						if (error) {
+							return res.status(400).json(error);
+						}
+						else {
+							return res.status(200).json({ message: 'Votre message a bien été supprimé !' });
+						}
+					}
+				);
 			}
 			else {
-				return res.status(200).json({ message: 'Votre message a bien été supprimé !' })
+				db.query(
+					`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
+						if (error) {
+							return res.status(400).json(error);
+						}
+						else {
+							return res.status(200).json({ message: 'Votre message a bien été supprimé !' });
+						}
+					}
+				);
 			}
-		}
-	);
+		}));
+	}
 };
-
 
 //Modifier un Message ou Commentaire 
 exports.updatePost = (req, res, next) => {
@@ -79,17 +94,6 @@ exports.getAllMessages = (req, res, next) => {
 			return res.status(200).json(result);
 		});
 };
-/*
-exports.getAllMessages = (req, res, next) => {
-	
-	const answer = messageCtrl.getAllMessages();
-	console.log(answer);
-	if (!answer.succeed) {
-		return res.status(400).json({ error: answer.result });
-	}
-	return res.status(200).json(answer.result);
-};
-*/
 
 //Afficher les messages postés
 exports.getAllMessagesOneUser = (req, res, next) => {

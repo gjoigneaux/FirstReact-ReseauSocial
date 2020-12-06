@@ -99,24 +99,3 @@ exports.deleteUser = (req, res, next) => {
 		}
 	);
 };
-
-//Modification des infotmations utilisateurs
-
-exports.updateUser = (req, res, next) => {
-	const email = req.body.email;
-	const username = req.body.username;
-	const id = req.params.id;
-	let passwords = req.body.password;
-	bcrypt.hash(passwords, 10)
-		.then((hash) => {
-			passwords = hash;
-			db.query(
-				`UPDATE user SET email='${email}', username='${username}', password='${passwords}', isAdmin=${0}  WHERE id=${id}`, (error, results, fields) => {
-					if (error) {
-						return res.status(400).json(error);
-					}
-					return res.status(200).json({ message: 'Vos information ont bien été modifié !' });
-				}
-			);
-		});
-};

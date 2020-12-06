@@ -27,7 +27,7 @@ function Header() {
       <header id="header" className="header">
         <Link id="header_logo" to='/'><Logo id="header_logo_groupomania" alt="logo_groupomania" /></Link>
         <nav id="nav_bar" className="nav_bar">
-          <Link id="nav_bar-log" to={`/user/${currentUser.userId}`}>Profil</Link>
+          <a id="nav_bar-log" href={'/user/' + currentUser.userId}>Profil</a>
           <Link id="nav_bar-sign" to="/login" onClick={Logout}>Logout</Link>
         </nav>
       </header>

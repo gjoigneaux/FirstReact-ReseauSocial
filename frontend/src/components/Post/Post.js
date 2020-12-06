@@ -44,7 +44,7 @@ const Post = () => {
             console.log(data);
             console.log(e);
           });
-        //window.location.reload(true);
+        window.location.reload(true);
       }
       else {
         alert("Pas de message");
