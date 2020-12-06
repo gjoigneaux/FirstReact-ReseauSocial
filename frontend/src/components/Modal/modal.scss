@@ -1,0 +1,13 @@
+.modal{
+    .message{
+        width: 100%;
+        .postMessage{
+            width: 100%;
+            margin-bottom: 2em;
+        }
+    }
+    .modalButton{
+        display: flex;
+        justify-content: space-around;
+    }
+}

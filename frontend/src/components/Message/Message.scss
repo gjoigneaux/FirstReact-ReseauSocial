@@ -1,0 +1,36 @@
+article {
+  position: relative;
+  margin: auto;
+  padding: 1em 1em 1em 1em;
+  width: 80%;
+  border: 1px solid black;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1em;
+  .entete {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em; 
+    &_info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+      .nom {
+        width: 100%;
+        margin-bottom: 5px;
+        font-weight: bold;
+        overflow: hidden;
+        text-decoration: none;
+      }
+      .heure{
+        width: 100%;
+        font-size: 0.7em;
+      }
+    }
+  }
+}
+
+.action{
+  float: right;
+}

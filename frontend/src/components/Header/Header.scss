@@ -1,0 +1,28 @@
+#header{
+  background-color: black;
+  width: 95%;
+  margin-right: 2.5%;
+  margin-left: 2.5%;
+  height: 120px;
+  #header_logo{
+    margin: auto;
+    width: 95%;
+    &_groupomania{
+      width: 95%;
+      margin-left: 2.5%;
+      margin-right: 2.5%;
+    }
+  }
+  #nav_bar{
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    #nav_bar-log, #nav_bar-sign{
+      font-size: 1.5em;
+      color: white;
+      text-decoration: none;
+      background-color: transparent;
+      border: none;
+    }
+  }
+}

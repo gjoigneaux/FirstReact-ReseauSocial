@@ -1,0 +1,19 @@
+.log{
+  margin-top: 1em;
+  width: 100%;
+  .username, .email, .password{
+    margin: auto;
+    padding: 1em 1em 1em 1em;
+    width: 60%;
+    .inputLogin, .inputemail, .inputPassword{
+      width: 100%;
+    }
+  }
+  .submit{
+    margin: auto;
+    width: 25%;
+    }
+    .inputSubmit{
+      width: 100%;
+    }
+}

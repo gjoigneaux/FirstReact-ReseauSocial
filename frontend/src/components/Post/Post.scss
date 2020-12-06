@@ -1,0 +1,43 @@
+.post{
+  margin-top: 1em;
+  width: 100%;
+  article {
+    position: relative;
+    margin: auto;
+    padding: 1em 1em 1em 1em;
+    width: 80%;
+    border: 1px solid black;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1em;
+    .entete {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1em; 
+      &_info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        line-height: 1;
+        .nom {
+          width: 100%;
+          margin-bottom: 5px;
+        }
+      }
+      .avatar {
+        display: inline-block;
+        margin-right: 0.8em;
+        width: 4em;
+        height: 4em;
+      }
+    }
+    .postMessage{
+      width: 100%;
+      margin-bottom: 1em;
+    }
+    .postMessageSubmit{
+       margin: 0 40% 0 40%;
+       width: 20%;
+    }
+  }
+}

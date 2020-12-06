@@ -1,0 +1,33 @@
+.commentaire{
+    border: 0.5px solid grey;
+    width: 85%;
+    float: right;
+    padding: 1em;
+    margin-bottom: 0.5em;
+    width: 90%;
+    .entete{
+        display: flex;
+        align-items: center;
+        margin-bottom: 1em;
+        .username{
+            font-weight: bold;
+            overflow: hidden;
+            .nom{
+                text-decoration: none;
+            }
+            .create{
+                width: 100%;
+                font-size: 0.7em;
+                font-weight: normal;
+            }
+        }
+    }
+    .text{
+        margin-top: 0.5em;
+    }
+}
+
+.action{
+    float: right;
+    width: 10%;
+}

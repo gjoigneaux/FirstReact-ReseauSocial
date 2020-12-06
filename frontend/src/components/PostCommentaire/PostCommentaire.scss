@@ -1,0 +1,15 @@
+.postcom{
+    border: 0.5px solid grey;
+    width: 90%;
+    float: right;
+    padding: 0.2em 1em 0.2em 1em;
+    margin-bottom: 0.5em;
+    .postCommentaire{
+      width: 100%;
+      margin-bottom: 0.2em;
+    }
+    .postCommentaireSubmit{
+       margin: 0 40% 0 40%;
+       width: 20%;
+    }
+}
