@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');//Cryptage du password
 const jwt = require('jsonwebtoken');//Créatio
 const db = require('../mysqlconfig');
+const sha256 = require('sha256');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 
@@ -9,7 +10,8 @@ exports.signup = (req, res, next) => {
 	bcrypt.hash(req.body.password, 10)
 		.then((hash) => {
 			req.body.password = hash;
-			db.query(`INSERT INTO user (\`email\`, \`username\`, \`password\`, \`isAdmin\`) VALUES ('${req.body.email}', '${req.body.username}', '${req.body.password}', '0')`, (err, result, field) => {
+			const email = sha256(req.body.email);
+			db.query(`INSERT INTO user (\`email\`, \`username\`, \`password\`, \`isAdmin\`) VALUES ('${email}', '${req.body.username}', '${req.body.password}', '0')`, (err, result, field) => {
 				if (err) {
 					console.log(err);
 					return res.status(400).json('erreur');
@@ -22,10 +24,10 @@ exports.signup = (req, res, next) => {
 //Connexion de l'utilisateur
 
 exports.login = (req, res, next) => {
-	const email = req.body.email;
+	const email = sha256(req.body.email);
 	const password = req.body.password;
 	if (email && password) {
-		db.query(`SELECT * FROM user WHERE email= '${req.body.email}'`, (error, results, fields) => {
+		db.query(`SELECT * FROM user WHERE email= '${email}'`, (error, results, fields) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password).then((valid) => {
 					if (!valid) {

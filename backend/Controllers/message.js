@@ -55,19 +55,19 @@ exports.deletePost = (req, res, next) => {
 					}
 				);
 			}
-			else {
-				db.query(
-					`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
-						if (error) {
-							return res.status(400).json(error);
-						}
-						else {
-							return res.status(200).json({ message: 'Votre message a bien été supprimé !' });
-						}
-					}
-				);
-			}
 		}));
+	}
+	else {
+		db.query(
+			`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
+				if (error) {
+					return res.status(400).json(error);
+				}
+				else {
+					return res.status(200).json({ message: 'Votre message a bien été supprimé !' });
+				}
+			}
+		);
 	}
 };
 

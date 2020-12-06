@@ -7,7 +7,7 @@ app.use(helmet());
 app.use(express.static('public'));
 
 
-const dataRoute = require('./Routes/user'); //Appel des routes utilisateurs
+const userRoute = require('./Routes/user'); //Appel des routes utilisateurs
 const messageRoute = require('./Routes/message'); //Appel des routes messages
 
 
@@ -23,7 +23,7 @@ app.use(bodyParser.json());//body parser pour convertir les objets JSON des requ
 app.use(express.json());
 
 
-app.use('/api/', dataRoute);
+app.use('/api/', userRoute);
 app.use('/api/', messageRoute);
 
 

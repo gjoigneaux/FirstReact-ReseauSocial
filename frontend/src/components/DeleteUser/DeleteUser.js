@@ -10,17 +10,36 @@ const DeleteUser = ({ idUSERS }) => {
     const DeleteUse = () => {
         userService.deleteuser(idUSERS)
             .then(response => {
-                window.location.reload(true);
+                sessionStorage.removeItem('user');
+                window.location = 'http://localhost:3001/';
             })
             .catch(e => {
                 alert("Erreur !");
             });
     }
 
-    if (currentUser.userId == idUSERS || currentUser.status === 'admin') {
+    const DeleteUseAdmin = () => {
+        userService.deleteuser(idUSERS)
+            .then(response => {
+                window.location.reload(true);
+                window.location = 'http://localhost:3001/';
+            })
+            .catch(e => {
+                alert("Erreur !");
+            });
+    }
+
+    if (currentUser.userId == idUSERS) {
         return (
             <article>
                 <button onClick={DeleteUse} className='DeleteUser'>Supprimer le profil</button>
+            </article>
+        );
+    }
+    else if (currentUser.status === 'admin') {
+        return (
+            <article>
+                <button onClick={DeleteUseAdmin} className='DeleteUser'>Supprimer le profil</button>
             </article>
         );
     }

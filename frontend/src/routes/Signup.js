@@ -83,8 +83,9 @@ const Signup = (props) => {
         if (checkBtn.current.context._errors.length === 0) {
             AuthService.register(username, email, password).then(
                 (response) => {
-                    setMessage(response.data.message);
                     setSuccessful(true);
+                    window.alert('Votre compte a bien été crée');
+                    document.location.href="http://localhost:3001/login";
                 },
                 (error) => {
                     const resMessage =
