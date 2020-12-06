@@ -43,13 +43,13 @@ const Commentaire = ({ idPARENT }) => {
                 {items.map((item, i) => (
                     <div className='commentaire' key={i}>
                         <div className='action'>
-                            <DeleteButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} />
+                            <DeleteButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} multimedia={item.multimedia}/>
                             <UpdateButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} message={item.message} />
                         </div>
                         <div className="entete">
                         <Avatar className='avatar' name={item.username} size="50"/>
                             <div className='username'>
-                                <Link to={`/user/${item.idUSERS}`}>{item.username}</Link>
+                                <a href={'/user/' + item.idUSERS}>{item.username}</a>
                                 <div className='create'>{item.created_at}</div>
                             </div>
                         </div>

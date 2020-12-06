@@ -47,7 +47,7 @@ const Message = ({ idUSERS, username, created, message, idMESSAGES, multimedia }
           <p className="messagetext">
             {message}
           </p>
-          <img src={multimedia} />
+          <img class='image' src={multimedia} />
         </div>
         <Commentaire idPARENT={idMESSAGES} />
       </article>
