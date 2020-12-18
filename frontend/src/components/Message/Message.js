@@ -7,6 +7,14 @@ import DeleteButton from '../DeleteButton/DeleteButton';
 import UpdateButton from '../UpdateButton/UpdateButton';
 
 const Message = ({ idUSERS, username, created, message, idMESSAGES, multimedia }) => {
+
+  //FORMAT DATE
+  const date = created.split('T');
+  const jours1 = date[0].split('-');
+  const jours = jours1[2] + '/' + jours1[1] + '/' + jours1[0];
+  const heure = date[1].split('.');
+  const datetime = jours + ' ' + heure[0];
+  
   if (multimedia == null) {
     return (
       <article>
@@ -19,7 +27,7 @@ const Message = ({ idUSERS, username, created, message, idMESSAGES, multimedia }
             <Avatar className='avatar' name={username} size="50" />
             <div className="entete_info">
               <Link className='nom' to={`/user/${idUSERS}`}>{username}</Link>
-              <div className="heure">{created}</div>
+              <div className="heure">{datetime}</div>
             </div>
           </div>
           <p className="messagetext">
@@ -41,7 +49,7 @@ const Message = ({ idUSERS, username, created, message, idMESSAGES, multimedia }
             <Avatar className='avatar' name={username} size="50" />
             <div className="entete_info">
               <Link className='nom' to={`/user/${idUSERS}`}>{username}</Link>
-              <div className="heure">{created}</div>
+              <div className="heure">{datetime}</div>
             </div>
           </div>
           <p className="messagetext">

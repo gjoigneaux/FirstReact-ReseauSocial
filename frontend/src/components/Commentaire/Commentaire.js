@@ -8,6 +8,16 @@ import DeleteButton from '../DeleteButton/DeleteButton';
 import UpdateButton from '../UpdateButton/UpdateButton';
 
 const Commentaire = ({ idPARENT }) => {
+
+    function splitDate(created) {
+        const date = created.split('T');
+        const jours1 = date[0].split('-');
+        const jours = jours1[2] + '/' + jours1[1] + '/' + jours1[0];
+        const heure = date[1].split('.');
+        const datetime = jours + ' ' + heure[0];
+        return datetime
+    }
+
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
@@ -43,14 +53,14 @@ const Commentaire = ({ idPARENT }) => {
                 {items.map((item, i) => (
                     <div className='commentaire' key={i}>
                         <div className='action'>
-                            <DeleteButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} multimedia={item.multimedia}/>
+                            <DeleteButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} multimedia={item.multimedia} />
                             <UpdateButton idMESSAGES={item.idMESSAGES} idUSERS={item.idUSERS} message={item.message} />
                         </div>
                         <div className="entete">
-                        <Avatar className='avatar' name={item.username} size="50"/>
+                            <Avatar className='avatar' name={item.username} size="50" />
                             <div className='username'>
-                                <a href={'/user/' + item.idUSERS}>{item.username}</a>
-                                <div className='create'>{item.created_at}</div>
+                                <a className='nom' href={'/user/' + item.idUSERS}>{item.username}</a>
+                                <div className='create'>{splitDate(item.created_at)}</div>
                             </div>
                         </div>
                         <div className='text'>{item.message}</div>
