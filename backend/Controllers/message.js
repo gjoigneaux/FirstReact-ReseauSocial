@@ -1,10 +1,14 @@
+/* eslint-disable no-useless-escape */
 const db = require('../mysqlconfig');//Configuration information de connections mysql
 const fs = require('fs');
 
 //Poster un message sans image
 exports.postmessage = (req, res, next) => {
+	const sql = 'INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`) VALUES (?,?,?,?)';
+	const inserts = ['0', req.body.idUSERS, req.body.message, req.body.username];
+	const request = db.format(sql, inserts);
 	db.query(
-		`INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`) VALUES ('0', '${req.body.idUSERS}', '${req.body.message}', '${req.body.username}')`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json({ error });
 			}
@@ -15,8 +19,11 @@ exports.postmessage = (req, res, next) => {
 
 //Poster un message avec image
 exports.postmessagewithimage = (req, res, next) => {
+	const sql = 'INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`,  \`multimedia\`) VALUES (?,?,?,?,?)';
+	const inserts = ['0', req.body.idUSERS, req.body.message, req.body.username, `${req.protocol}://${req.get('host')}/images/${req.file.filename}`];
+	const request = db.format(sql, inserts);
 	db.query(
-		`INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`,  \`multimedia\`) VALUES ('0', '${req.body.idUSERS}', '${req.body.message}', '${req.body.username}', '${req.protocol}://${req.get('host')}/images/${req.file.filename}')`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json({ error });
 			}
@@ -27,8 +34,11 @@ exports.postmessagewithimage = (req, res, next) => {
 
 //Poster un Commentaire 
 exports.postCommentaire = (req, res, next) => {
+	const sql = 'INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`) VALUES (?,?,?,?)';
+	const inserts = [req.body.idPARENT, req.body.idUSERS, req.body.message, req.body.username];
+	const request = db.format(sql, inserts);
 	db.query(
-		`INSERT INTO messages (\`idPARENT\`, \`idUSERS\`, \`message\`, \`username\`) VALUES ('${req.body.idPARENT}', '${req.body.idUSERS}', '${req.body.message}', '${req.body.username}')`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json(error);
 			}
@@ -44,8 +54,11 @@ exports.deletePost = (req, res, next) => {
 		fs.unlink(`./public/images/${req.body.multi}`, (err => {
 			if (err) {
 				console.log(err);
+				const sql = 'DELETE FROM messages WHERE idMESSAGES=? OR IdPARENT=?';
+				const inserts = [req.params.id, req.params.id];
+				const request = db.format(sql, inserts);
 				db.query(
-					`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
+					request, (error, results, fields) => {
 						if (error) {
 							return res.status(400).json(error);
 						}
@@ -58,8 +71,11 @@ exports.deletePost = (req, res, next) => {
 		}));
 	}
 	else {
+		const sql = 'DELETE FROM messages WHERE idMESSAGES=? OR IdPARENT=?';
+		const inserts = [req.params.id, req.params.id];
+		const request = db.format(sql, inserts);
 		db.query(
-			`DELETE FROM messages WHERE idMESSAGES='${req.params.id}' OR IdPARENT='${req.params.id}'`, (error, results, fields) => {
+			request, (error, results, fields) => {
 				if (error) {
 					return res.status(400).json(error);
 				}
@@ -73,8 +89,11 @@ exports.deletePost = (req, res, next) => {
 
 //Modifier un Message ou Commentaire 
 exports.updatePost = (req, res, next) => {
+	const sql = 'UPDATE messages SET message=? WHERE idMESSAGES=?';
+	const inserts = [req.body.updatemessage, req.body.idMESSAGES];
+	const request = db.format(sql, inserts);
 	db.query(
-		`UPDATE messages SET message="${req.body.updatemessage}" WHERE idMESSAGES=${req.body.idMESSAGES}`, (error, results, fields) => {
+		request, (error, results, fields) => {
 			if (error) {
 				return res.status(400).json(error);
 			}
@@ -86,8 +105,11 @@ exports.updatePost = (req, res, next) => {
 
 //Afficher les messages postés
 exports.getAllMessages = (req, res, next) => {
+	const sql = 'SELECT * FROM messages WHERE idPARENT=? ORDER BY created_at DESC';
+	const inserts = ['0'];
+	const request = db.format(sql, inserts);
 	db.query(
-		'SELECT * FROM messages WHERE idPARENT=0 ORDER BY created_at DESC', (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json({ error });
 			}
@@ -97,8 +119,11 @@ exports.getAllMessages = (req, res, next) => {
 
 //Afficher les messages postés
 exports.getAllMessagesOneUser = (req, res, next) => {
+	const sql = 'SELECT * FROM messages WHERE idPARENT=? AND idUSERS=? ORDER BY created_at DESC';
+	const inserts = ['0', req.params.id];
+	const request = db.format(sql, inserts);
 	db.query(
-		`SELECT * FROM messages WHERE idPARENT='0' AND idUSERS='${req.params.id}' ORDER BY created_at DESC`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json({ error });
 			}
@@ -108,8 +133,11 @@ exports.getAllMessagesOneUser = (req, res, next) => {
 
 //Afficher tout les commentaires postés
 exports.getCommentaires = (req, res, next) => {
+	const sql = 'SELECT * FROM messages WHERE idPARENT=? ORDER BY created_at DESC';
+	const inserts = [req.params.id];
+	const request = db.format(sql, inserts);
 	db.query(
-		`SELECT * FROM messages WHERE idPARENT='${req.params.id}' ORDER BY created_at DESC`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				return res.status(400).json({ error });
 			}

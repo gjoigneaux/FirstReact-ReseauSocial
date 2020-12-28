@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 const bcrypt = require('bcrypt');//Cryptage du password
 const jwt = require('jsonwebtoken');//Créatio
 const db = require('../mysqlconfig');
@@ -11,7 +12,10 @@ exports.signup = (req, res, next) => {
 		.then((hash) => {
 			req.body.password = hash;
 			const email = sha256(req.body.email);
-			db.query(`INSERT INTO user (\`email\`, \`username\`, \`password\`, \`isAdmin\`) VALUES ('${email}', '${req.body.username}', '${req.body.password}', '0')`, (err, result, field) => {
+			const sql = 'INSERT INTO user (\`email\`, \`username\`, \`password\`, \`isAdmin\`) VALUES (?,?,?,?)';
+			const inserts = [email, req.body.username, req.body.password, '0'];
+			const request = db.format(sql, inserts);
+			db.query(request, (err, result, field) => {
 				if (err) {
 					console.log(err);
 					return res.status(400).json('erreur');
@@ -27,7 +31,10 @@ exports.login = (req, res, next) => {
 	const email = sha256(req.body.email);
 	const password = req.body.password;
 	if (email && password) {
-		db.query(`SELECT * FROM user WHERE email= '${email}'`, (error, results, fields) => {
+		const sql = 'SELECT * FROM user WHERE email=?';
+		const inserts = [email];
+		const request = db.format(sql, inserts);
+		db.query(request, (error, results, fields) => {
 			if (results.length > 0) {
 				bcrypt.compare(password, results[0].password).then((valid) => {
 					if (!valid) {
@@ -60,12 +67,14 @@ exports.login = (req, res, next) => {
 	}
 };
 
-//Affichage de tous les utilisateurs
+//Affichage de tous les utilisateurs non admin 
 
 exports.getUsers = (req, res, next) => {
+	const sql = 'SELECT id, username, isAdmin, email FROM user WHERE isAdmin=?';
+	const inserts = ['0'];
+	const request = db.format(sql, inserts);
 	db.query(
-		'SELECT id, username, isAdmin, email FROM user WHERE isAdmin=0',
-		function (error, results) {
+		request, (error, results) => {
 			if (error) {
 				return res.status(400).json(error);
 			}
@@ -77,8 +86,11 @@ exports.getUsers = (req, res, next) => {
 //Affichage de l'utilisateur selectionné
 
 exports.getOneUser = (req, res, next) => {
+	const sql = 'SELECT id, username, email FROM user WHERE id=?';
+	const inserts = [req.params.id];
+	const request = db.format(sql, inserts);
 	db.query(
-		`SELECT id, username, email FROM user WHERE id=${req.params.id}`, (error, results) => {
+		request, (error, results) => {
 			if (error) {
 				return res.status(400).json(error);
 			}
@@ -90,8 +102,11 @@ exports.getOneUser = (req, res, next) => {
 //Suppression du compte utilisateur
 
 exports.deleteUser = (req, res, next) => {
+	const sql = 'DELETE FROM user WHERE id=?';
+	const inserts = [req.params.id];
+	const request = db.format(sql, inserts);
 	db.query(
-		`DELETE FROM user WHERE id=${req.params.id}`, (error, result, field) => {
+		request, (error, result, field) => {
 			if (error) {
 				console.log(error);
 				return res.status(400).json(error);
